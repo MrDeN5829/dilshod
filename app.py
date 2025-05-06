@@ -6,11 +6,11 @@ app = Flask(__name__)
 CORS(app)
 
 # Hardcoded RDS credentials (avoid this in production)
-DB_HOST = ''
+DB_HOST = '<your-rds-endpoint>'
 DB_PORT = '5432'
-DB_NAME = 'db_dilshod'
+DB_NAME = 'db_<first_name>'
 DB_USER = 'postgres'
-DB_PASSWORD = 'd12345678'
+DB_PASSWORD = '<your_password>'
 
 def get_db_connection():
     return psycopg2.connect(
@@ -27,7 +27,7 @@ def get_data():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM tbl_dilshod_data;")
+        cur.execute("SELECT * FROM tbl_<change>_data;") #change
         rows = cur.fetchall()
         columns = [desc[0] for desc in cur.description]
         result = [dict(zip(columns, row)) for row in rows]
@@ -42,7 +42,7 @@ def get_data():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM tbl_dilshod_data;")
+        cur.execute("SELECT * FROM tbl_<first_name>_data;") # change
         rows = cur.fetchall()
         columns = [desc[0] for desc in cur.description]
         result = [dict(zip(columns, row)) for row in rows]
@@ -57,7 +57,7 @@ def add_data():
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO tbl_dilshod_data (class) VALUES (%s)",
+        "INSERT INTO tbl_<first_name>_data (class) VALUES (%s)", # change
         ('TEST',)
     )
     conn.commit()
@@ -70,7 +70,7 @@ def delete():
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute(
-        "DELETE FROM tbl_dilshod_data WHERE id = (SELECT MAX(id) FROM tbl_dilshod_data)"
+        "DELETE FROM tbl_<first_name>_data WHERE id = (SELECT MAX(id) FROM tbl_<first_name>_data)" #change
     )
     conn.commit()
     cur.close()
