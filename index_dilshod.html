@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebApp Dilshod</title>
+</head>
+<body>
+  <h1>Data from RDS</h1>
+  <table id="data-table" border="1">
+    <!-- Table will be populated by JavaScript -->
+  </table>
+
+  <button id="add-btn">Add</button>
+  <button id="del-btn">Delete</button>
+
+  <script>
+    const API_BASE = 'http://13.213.72.55:5000';
+
+    async function loadData() {
+      try {
+        const res = await fetch(`${API_BASE}/data`);
+        const data = await res.json();
+        const table = document.getElementById('data-table');
+        table.innerHTML = '';
+
+        if (!data.length) {
+          table.innerHTML = '<tr><td>No data found</td></tr>';
+          return;
+        }
+
+        // Header row
+        const hdr = table.insertRow();
+        Object.keys(data[0]).forEach(col => {
+          const th = document.createElement('th');
+          th.textContent = col;
+          hdr.appendChild(th);
+        });
+
+        // Data rows
+        data.forEach(row => {
+          const tr = table.insertRow();
+          Object.values(row).forEach(val => {
+            const td = tr.insertCell();
+            td.textContent = val;
+          });
+        });
+      } catch (err) {
+        console.error('Error loading data:', err);
+      }
+    }
+
+    document.getElementById('add-btn').onclick = async () => {
+      await fetch(`${API_BASE}/add`, { method: 'POST' });
+      loadData();
+    };
+
+    document.getElementById('del-btn').onclick = async () => {
+      await fetch(`${API_BASE}/delete`, { method: 'POST' });
+      loadData();
+    };
+
+    // Initial load
+    loadData();
+  </script>
+</body>
+</html>
