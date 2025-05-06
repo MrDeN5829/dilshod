@@ -27,7 +27,7 @@ def get_data():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM tbl_<change>_data;") #change
+        cur.execute("SELECT * FROM tbl_<first_name>_data;") #change
         rows = cur.fetchall()
         columns = [desc[0] for desc in cur.description]
         result = [dict(zip(columns, row)) for row in rows]
