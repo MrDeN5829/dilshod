@@ -30,7 +30,7 @@ This project demonstrates how to deploy a full-stack web application using:
 3. Engine: **PostgreSQL**, version 15 or higher
 4. DB Instance Identifier: `db_<first_name>`
 5. Master username: `postgres`, Password: your password
-6. DB instance class: `db.t3.micro` (free tier)
+6. DB instance class: `db.t2.micro` (free tier)
 7. Enable public access
 8. Use default VPC and subnet group
 9. (Optional) Uncheck "Enable Storage Auto Scaling"
@@ -56,7 +56,7 @@ This project demonstrates how to deploy a full-stack web application using:
 ### Step 5: Create S3 Bucket
 
 1. Go to **S3 → Create bucket**
-2. Name it (e.g., `webapp-<first_name>`)
+2. Name it (e.g., `index-<first_name>`)
 3. Uncheck "Block all public access"
 
 ### Step 6: Upload Frontend Files
