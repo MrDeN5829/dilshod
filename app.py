@@ -37,20 +37,6 @@ def get_data():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/data', methods=['GET'])
-def get_data():
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM tbl_<first_name>_data;") # change
-        rows = cur.fetchall()
-        columns = [desc[0] for desc in cur.description]
-        result = [dict(zip(columns, row)) for row in rows]
-        cur.close()
-        conn.close()
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
 @app.route('/add', methods=['POST'])
 def add_data():
