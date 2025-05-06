@@ -3,19 +3,91 @@
 
 ## Overview
 
-This repository demonstrates the deployment of a full-stack web application using:
+This project demonstrates how to deploy a full-stack web application using:
 
-- **Amazon EC2**: for hosting the Flask backend
-- **Amazon RDS (PostgreSQL)**: as the database backend
-- **Amazon S3**: for static website hosting of the frontend
+- **Amazon EC2** – Hosting a Flask backend
+- **Amazon RDS (PostgreSQL)** – Hosting the database
+- **Amazon S3** – Hosting the static frontend
 
-The application consists of:
+### Features
 
-- A static HTML/JS frontend served from S3
-- A Flask API (`app.py`) running on EC2, connecting to RDS
-- Two operations: **Add** and **Delete** data in the `tbl_<first_name>_data` table
+- Display data from PostgreSQL RDS
+- Add and delete sample data
+- Fully deployed and accessible via the internet
 
 ---
+
+## Phase 1: Database Setup (RDS – PostgreSQL)
+
+### Step 1: Choose a Dataset
+
+- Visit [Kaggle Datasets](https://www.kaggle.com/datasets)
+- Download a CSV dataset of your choice
+
+### Step 2: Launch RDS PostgreSQL Instance
+
+1. Go to **RDS → Databases → Create database**
+2. Choose **Standard Create**
+3. Engine: **PostgreSQL**, version 15 or higher
+4. DB Instance Identifier: `db_<first_name>`
+5. Master username: `postgres`, Password: your password
+6. DB instance class: `db.t3.micro` (free tier)
+7. Enable public access
+8. Use default VPC and subnet group
+9. (Optional) Uncheck "Enable Storage Auto Scaling"
+
+### Step 3: Configure RDS Security Group
+
+- Go to **EC2 → Security Groups**
+- Edit inbound rules for your RDS security group:
+  - Type: PostgreSQL
+  - Port: 5432
+  - Source: your EC2 instance’s security group or `0.0.0.0/0` (testing only)
+
+### Step 4: Import Dataset to RDS
+
+- Use **DBeaver** or **psql CLI** to:
+  1. Connect to your RDS PostgreSQL instance
+  2. Create a table: `tbl_<first_name>_data`
+  3. Import your CSV into the table
+
+---
+
+## Phase 2: Static Website Hosting (S3)
+
+### Step 5: Create S3 Bucket
+
+1. Go to **S3 → Create bucket**
+2. Name it (e.g., `webapp-<first_name>`)
+3. Uncheck "Block all public access"
+
+### Step 6: Upload Frontend Files
+
+- Upload `index_<first_name>.html`, CSS, and JS files
+
+### Step 7: Make Files Public
+
+Apply the following **Bucket Policy**:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-bucket-name/*"
+    }
+  ]
+}
+```
+###Step 8: Enable Static Website Hosting
+
+- Go to Properties → Static website hosting
+- Index document: index_<first_name>.html
+- Copy the Endpoint URL
 
 ## Phase 3: EC2 Instance Deployment
 
