@@ -143,6 +143,7 @@ source venv/bin/activate
 
 # Install Python dependencies
 pip install flask psycopg2-binary flask-cors python-dotenv
+source venv/bin/activate
 
 # Create Flask application
 nano app.py
