@@ -15,7 +15,6 @@ This project demonstrates how to deploy a full-stack web application using:
 - Add and delete sample data
 - Fully deployed and accessible via the internet
 
----
 
 ## Phase 1: Database Setup (RDS – PostgreSQL)
 
@@ -51,7 +50,6 @@ This project demonstrates how to deploy a full-stack web application using:
   2. Create a table: `tbl_<first_name>_data`
   3. Import your CSV into the table
 
----
 
 ## Phase 2: Static Website Hosting (S3)
 
